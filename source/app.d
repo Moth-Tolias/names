@@ -3,29 +3,39 @@ import std.file;
 
 void main(string[] args)
 {
-	string[] names;
-
-	auto files = args[1 .. $];
-	foreach (string file; files)
+	if (args.length <= 1)
 	{
-		auto f = File(file, "r"); //TODO: check if file exists
+		writeln("usage: names FILE [FILE...]");
+	} else {
 
-		auto lines = f.byLine();
-		foreach(line; lines)
-		{
-			//add to names [if not duplicate or empty]
-			import std.algorithm.searching : canFind;
-			if ((line != "") && !canFind(names, line))
-			{
-				names ~= line.idup;
+		try {
+			string[] names;
+
+			auto files = args[1 .. $];
+			foreach (string file; files) {
+				import std.file : exists;
+				import std.exception : enforce;
+				enforce(file.exists, "error: file " ~ file ~ " does not exist");
+
+				auto f = File(file, "r");
+				auto lines = f.byLine();
+				foreach(line; lines) {
+					//add to names [if not duplicate or empty]
+					import std.algorithm.searching : canFind;
+					if ((line != "") && !canFind(names, line)) {
+						names ~= line.idup;
+					}
+				}
+
+				//file is automatically closed
 			}
+
+			foreach(string name; names) {
+				writeln(name);
+			}
+
+		} catch(Exception e) {
+			writeln(e.msg);
 		}
-
-		//file is automatically closed
-	}
-
-	foreach(string name; names)
-	{
-		writeln(name);
 	}
 }
