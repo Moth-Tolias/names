@@ -3,8 +3,7 @@ import std.file;
 
 void main(string[] args)
 {
-	if (args.length <= 1)
-	{
+	if (args.length <= 1) {
 		writeln("usage: names FILE [FILE...]");
 	} else {
 
