@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/names
+names.so
+names.dylib
+names.dll
+names.a
+names.lib
+names-test-*
+*.exe
+*.o
+*.obj
+*.lst
